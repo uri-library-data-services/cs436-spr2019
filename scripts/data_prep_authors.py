@@ -15,12 +15,12 @@ df = pd.read_csv(doc, sep='\t', header=None)
 # add column names
 df.columns = ['type', 'path', 'revisions', 'timestamp', 'details']
 
-​# get 'author_id' from 'path'
+# get 'author_id' from 'path'
 df['author_id'] = df.path.str[9:]
 
-​# create a list of lists containing only the id and json data fields
+# create a list of lists containing only the id and json data fields
 authors = df[['author_id', 'details']].values.tolist()
-author_ids = ['author_id', 'author_name']  # initialize a list to hold extracted data
+author_ids = [['id', 'name']]  # initialize a list to hold extracted data
 
 # iterate through the list and extract author names from the json data
 for author in authors:

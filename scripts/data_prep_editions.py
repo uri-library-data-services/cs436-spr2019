@@ -5,6 +5,9 @@
 # Outputs:
 # ../data_output/editions_works.csv
 # ../data_output/editions.csv
+import csv
+import pandas as pd
+import json
 
 doc = "../data_output/ai-editions.tsv"
 df = pd.read_csv(doc, sep='\t', header=None)
@@ -18,9 +21,8 @@ df['edition_id'] = df.path.str[7:]
 # create a list of lists containing only the id and json data
 editions_master = df[['edition_id', 'details']].values.tolist()
 
-edition_work = ["edition_id", "work_id"] # edition_id, work_id pairs
-edition_tbl = [["edition_id","num_pages","isbn10","isbn13","physical_format",
-                "title","pubdate"]]
+edition_work = ["editionid", "workid"] # edition_id, work_id pairs
+edition_tbl = [["id", "title", "numpages", "ISBN10", "ISBN13", "physfmt", "pubdate"]]
 
 for edition in editions_master:
     details = json.loads(edition[1])
@@ -31,14 +33,16 @@ for edition in editions_master:
         number_of_pages = details["number_of_pages"]
     else:
         number_of_pages = "NULL"
-    # get isbn10
+    # get isbn10 (Note: occasionally there are multiple ISBN's so to simplify we 
+    # only select the first one)
     if 'isbn_10' in details.keys():
-        isbn_10 = details["isbn_10"]
+        isbn_10 = details["isbn_10"][0]
     else:
         isbn_10 = "NULL"
-    # get isbn13
+    # get isbn13 (Note: occasionally there are multiple ISBN's so to simplify we 
+    # only select the first one)
     if 'isbn_13' in details.keys():
-        isbn_13 = details["isbn_13"]
+        isbn_13 = details["isbn_13"][0]
     else:
         isbn_13 = "NULL"
     # get title

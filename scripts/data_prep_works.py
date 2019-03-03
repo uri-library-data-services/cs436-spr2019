@@ -12,6 +12,15 @@ import csv
 import json
 import pandas as pd
 
+
+# First grab publication data from ai-editions
+doc = "../data_output/ai-editions.tsv"
+df = pd.read_csv(doc2, sep='\t', header=None)
+
+# add column names
+df.columns = ['type', 'path', 'revisions', 'timestamp', 'details']
+
+### Grab works data
 doc = "../data_output/artificial_intelligence_works.txt"
 df = pd.read_csv(doc, sep='\t', header=None)
 
@@ -25,11 +34,11 @@ df['work_id'] = df.path.str[7:]
 works = df[['work_id', 'details']].values.tolist()
 
 # initialize some lists to hold the data that will get saved in csv files
-titles = [["work_id","title"]] # work_id and title
-work_authors = [["work_id","author_id"]] # work_id and author_id
+titles = [["id","title"]] # work_id and title
+work_authors = [["workid","authorid"]] # work_id and author_id
 subjects = [] # temporary storage for work_id and subject
-subject_tbl = [["subject_id","subject"]] # subject_id
-work_subject = [["work_id","subject_id"]] #work_id and subject_id
+subject_tbl = [["id","subject"]] # subject_id
+work_subject = [["workid","subjectid"]] #work_id and subject_id
 edition_publisher = [["edition_id","publisher_id"]] #edition_id and publisher_id
 
 # Loop through 'works' and pull out the pieces of data we want in the database
@@ -42,8 +51,6 @@ for work in works:
     # append authors to list - not all works have authors!
     try:
         for a in details["authors"]:
-            # work_authors.append([works[0], json.dumps(a["author"]["key"][9:])])
-            # author_id = json.dumps(a["author"]["key"][9:])
             work_authors.append([work[0], a["author"]["key"][9:]])
     except:
         # print(json.dumps(details))
