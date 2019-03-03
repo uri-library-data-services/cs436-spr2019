@@ -5,6 +5,7 @@
 # Outputs:
 # ../data_output/editions_works.csv
 # ../data_output/editions.csv
+
 import csv
 import pandas as pd
 import json
@@ -24,6 +25,7 @@ editions_master = df[['edition_id', 'details']].values.tolist()
 edition_work = ["editionid", "workid"] # edition_id, work_id pairs
 edition_tbl = [["id", "title", "numpages", "ISBN10", "ISBN13", "physfmt", "pubdate"]]
 
+# create lookup tables for creating EditionPUblish table data
 for edition in editions_master:
     details = json.loads(edition[1])
     # get work_ids -- lookup table
