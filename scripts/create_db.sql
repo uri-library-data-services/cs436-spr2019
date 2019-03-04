@@ -9,9 +9,9 @@ CREATE TABLE `Authors`
 DROP TABLE IF EXISTS `Publishers`;
 CREATE TABLE `Publishers` 
 (
-	`publisherid` int NOT NULL,
+	`id` int NOT NULL,
 	`name` varchar(255),
-        PRIMARY KEY(`publisherid`)
+        PRIMARY KEY(`id`)
 );
 
 DROP TABLE IF EXISTS `Editions`;
